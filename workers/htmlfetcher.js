@@ -5,15 +5,16 @@ var archive = require('../helpers/archive-helpers');
 
 exports.fetch = function() {
 	var array = [];
+	console.log("i get into fetch!!!")
 	archive.readListOfUrls(function(urls){
 		urls.forEach(function(url){
 			archive.isUrlArchived(url, function(isPresent){
 				if(!isPresent){
-					array.push(url);
-
+					archive.downloadUrls([url]);
+					console.log("I'm downloading!!")
 				}
 			});
 		});
-	archive.downloadUrls(array);
+
 	});
-}
+}              

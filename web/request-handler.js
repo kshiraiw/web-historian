@@ -41,9 +41,25 @@ var handlePost = function(req, res){
 		body += chunk;
 	});
 	req.on("end", function(){
-		fs.appendFile(archive.paths.list, body.substr(4) + "\n");
-		res.writeHead(302, helper.headers);
-		setTimeout(worker.fetch.bind(worker), 0);
-		res.end();
+		archive.isUrlInList(body.substr(4), function(exist){
+			if(exist){
+				archive.isUrlArchived(body.substr(4), function(isPresent) {
+					if (isPresent) {
+						helper.serveAssets(res, archive.paths.archivedSites + "/"+ body.substr(4));	
+						console.log('this page is present!!!')
+					} else {
+						helper.serveAssets(res, archive.paths.siteAssets + "/loading.html", 404);
+					}
+				})
+				
+			}else{
+				archive.addUrlToList(body.substr(4), function() {
+					console.log("Yay!! Added!!!")
+				});
+				res.writeHead(302, helper.headers);
+				setTimeout(worker.fetch.bind(worker), 0);
+				res.end();
+			}
+		});
 	});
 };
