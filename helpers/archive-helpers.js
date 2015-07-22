@@ -1,6 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var request = require('request');
+var urlParser = require('url');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -25,22 +27,34 @@ exports.initialize = function(pathsObj){
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(){
+exports.readListOfUrls = function(callback){
 	//read txt file
-	var data;
-	fs.readFile(paths.list, function(err, bit){
-		data = JSON.parse(bit);
-		console.log(data);
+	var data = "";
+	fs.readFile(this.paths.list, function(err, bit){
+
+		data += bit;
+		data = data.split("\n");
+		callback(data);
 	});
 
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(target, callback){
 	//checking if url is in txt file
+	this.readListOfUrls(function(arrUrls){
+		if(arrUrls.indexOf(target) === -1){
+			callback(false);
+		}else{
+			callback(true);
+		}
+	});
 };
 
-exports.addUrlToList = function(){
+exports.addUrlToList = function(url, callback){
 	//adding url to txt file
+	fs.appendFile(this.paths.list, url + "\n", function() {
+		callback(url);
+	});
 };
 
 exports.isUrlArchived = function(url, callback){
@@ -50,10 +64,13 @@ exports.isUrlArchived = function(url, callback){
 	});
 };
 
-exports.downloadUrls = function(){
-	var fd = fs.openSync(fixturePath, "w");
-	fs.writeSync(fd, "google");
-	fs.closeSync(fd);
-	// Write data to the file.
-	fs.writeFileSync(fixturePath, "google");
+exports.downloadUrls = function(array){
+	var that = this;
+	array.forEach(function(url){
+		request(url, function(err, res, body){
+			var parsedPath = urlParser.parse(url);
+			console.log("PATHNAME: " + parsedPath.pathname);
+			fs.writeFile(that.paths.archivedSites +"/"+ parsedPath.pathname, body);
+		});
+	});
 };

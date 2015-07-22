@@ -2,6 +2,7 @@ var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var helper = require('./http-helpers');
 var fs = require('fs');
+var worker = require('../workers/htmlfetcher');
 
 // require more modules/folders here!
 
@@ -40,6 +41,7 @@ var handlePost = function(req, res){
 	req.on("end", function(){
 		fs.appendFile(archive.paths.list, JSON.parse(body).url + "\n");
 		res.writeHead(302, helper.headers);
+		setTimeout(worker.fetch.bind(worker), 0);
 		res.end();
 	});
 };
