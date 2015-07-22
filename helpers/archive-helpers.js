@@ -3,6 +3,7 @@ var path = require('path');
 var _ = require('underscore');
 var request = require('request');
 var urlParser = require('url');
+var http = require('http');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -66,11 +67,34 @@ exports.isUrlArchived = function(url, callback){
 
 exports.downloadUrls = function(array){
 	var that = this;
+
 	array.forEach(function(url){
-		request(url, function(err, res, body){
-			var parsedPath = urlParser.parse(url);
-			console.log("PATHNAME: " + parsedPath.pathname);
-			fs.writeFile(that.paths.archivedSites +"/"+ parsedPath.pathname, body);
-		});
+		var parsedPath = urlParser.parse(url);
+		// console.log("ParsedPath" + parsedPath);
+		console.log("http://"+url, exports.paths.archivedSites + "/" + url);
+		request("http://" + url).pipe(fs.createWriteStream(exports.paths.archivedSites + "/" + url));
+
+		///
+
+		// request({
+		// 	uri: url,
+		// }, function(err, res, body){
+		// 	console.log(body);
+		// })
+
+		// http.get(url, function(res){
+		// 	var data = "";
+		// 	res.on("data", function(chunk){
+		// 		data += chunk;
+		// 		console.log("inside response on");
+		// 	});
+		// 	res.on("end", function(){
+		// 		console.log(data);
+		// 	});
+		// }).on('error', function(e){
+		// 	console.log("Got error" + e.message);
+		// });
+	
 	});
+	return true;
 };
