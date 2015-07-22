@@ -26,16 +26,34 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(){
+	//read txt file
+	var data;
+	fs.readFile(paths.list, function(err, bit){
+		data = JSON.parse(bit);
+		console.log(data);
+	});
+
 };
 
 exports.isUrlInList = function(){
+	//checking if url is in txt file
 };
 
 exports.addUrlToList = function(){
+	//adding url to txt file
 };
 
-exports.isUrlArchived = function(){
+exports.isUrlArchived = function(url, callback){
+	//check if file is downloaded
+	fs.exists(url, function(exist){
+		callback(exist);
+	});
 };
 
 exports.downloadUrls = function(){
+	var fd = fs.openSync(fixturePath, "w");
+	fs.writeSync(fd, "google");
+	fs.closeSync(fd);
+	// Write data to the file.
+	fs.writeFileSync(fixturePath, "google");
 };
