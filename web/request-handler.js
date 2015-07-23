@@ -59,7 +59,7 @@ var handlePost = function(req, res){
 				
 			}else{
 				archive.addUrlToList(body.substr(4), function() {
-					// console.log("Yay!! Added!!!")
+					console.log("Yay!! Added!!!")
 				});
 				// setTimeout(worker.fetch.bind(worker), 0);
 				helper.serveAssets(res, archive.paths.siteAssets + "/loading.html", 302);

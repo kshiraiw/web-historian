@@ -1,4 +1,29 @@
+@import url(http://fonts.googleapis.com/css?family=Indie+Flower:600,400,200);
+
 body {
+  text-align: center;
+  font-size: 150%;
   margin : 0px;
-  font-family: arial, sans-serif;
+  background-image: url("http://heroeslike.us/wp-content/uploads/2014/04/wallpaper-of-mount-rainier-washington.jpg");
 }
+
+.stage {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  width: 500px;
+  height: 400px;
+  margin: 10% auto;
+  padding: 20px 10px 30px 40px;
+}
+
+.msgbox{
+	width: 300px;
+	height: 100px;
+	margin-top: 20px;
+}
+
+.box{
+	margin-top: 90px;
+}
+
+input { font-size: 38px; }
