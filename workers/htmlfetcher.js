@@ -8,10 +8,11 @@ exports.fetch = function() {
 	console.log("i get into fetch!!!")
 	archive.readListOfUrls(function(urls){
 		urls.forEach(function(url){
-			archive.isUrlArchived(url, function(isPresent){
+			console.log(archive.paths.archivedSites + '/' + url)
+			archive.isUrlArchived(archive.paths.archivedSites + '/' + url, function(isPresent){
 				if(!isPresent){
 					archive.downloadUrls([url]);
-					console.log("I'm downloading!!")
+					console.log("I'm downloading")
 				}
 			});
 		});

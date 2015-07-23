@@ -19,9 +19,11 @@ exports.handleRequest = function (req, res) {
 };
 
 var handleGet = function(req, res) {
+	console.log(req.url)
 	if(req.url === "/"){
 	  	helper.serveAssets(res, archive.paths.siteAssets + "/index.html");
 	} else  {
+		console.log("This LINE!!"+archive.paths.archivedSites + req.url)
 		archive.isUrlArchived(archive.paths.archivedSites + req.url, function(exist) {
 			if (exist) {
 				helper.serveAssets(res, archive.paths.archivedSites + req.url);	
@@ -43,7 +45,7 @@ var handlePost = function(req, res){
 	req.on("end", function(){
 		archive.isUrlInList(body.substr(4), function(exist){
 			if(exist){
-				archive.isUrlArchived(body.substr(4), function(isPresent) {
+				archive.isUrlArchived(archive.paths.archivedSites + '/' + body.substr(4), function(isPresent) {
 					if (isPresent) {
 						helper.serveAssets(res, archive.paths.archivedSites + "/"+ body.substr(4));	
 						console.log('this page is present!!!')
@@ -56,9 +58,8 @@ var handlePost = function(req, res){
 				archive.addUrlToList(body.substr(4), function() {
 					console.log("Yay!! Added!!!")
 				});
-				res.writeHead(302, helper.headers);
 				setTimeout(worker.fetch.bind(worker), 0);
-				res.end();
+				helper.serveAssets(res, archive.paths.siteAssets + "/loading.html", 302);
 			}
 		});
 	});

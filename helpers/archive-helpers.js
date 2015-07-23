@@ -60,7 +60,7 @@ exports.addUrlToList = function(url, callback){
 
 exports.isUrlArchived = function(url, callback){
 	//check if file is downloaded
-	fs.exists(this.paths.archivedSites + '/' + url, function(exist){
+	fs.exists(url, function(exist){
 		console.log(exist)
 		callback(exist);
 	});
