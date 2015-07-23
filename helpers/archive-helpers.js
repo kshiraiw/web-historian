@@ -61,7 +61,7 @@ exports.addUrlToList = function(url, callback){
 exports.isUrlArchived = function(url, callback){
 	//check if file is downloaded
 	fs.exists(url, function(exist){
-		console.log(exist)
+		// console.log(exist)
 		callback(exist);
 	});
 };
@@ -75,7 +75,7 @@ exports.downloadUrls = function(array){
 		console.log("http://"+url, exports.paths.archivedSites + "/" + url);
 		request("http://" + url)
 			.on( 'error', function(err){
-				console.log(err)	
+				// console.log(err)	
 			})
 			.pipe(fs.createWriteStream(exports.paths.archivedSites + "/" + url));
 
