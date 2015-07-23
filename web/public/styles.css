@@ -2,28 +2,31 @@
 
 body {
   text-align: center;
+  background-size: 100%;
   font-size: 150%;
   margin : 0px;
-  background-image: url("http://heroeslike.us/wp-content/uploads/2014/04/wallpaper-of-mount-rainier-washington.jpg");
+  background-image: url("http://www.simplefolkradio.com/images/menu%20bars%20and%20buttons/backgroundPage.JPG");
+
 }
 
 .stage {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
-  width: 500px;
-  height: 400px;
+  width: 400px;
+  height: 200px;
   margin: 10% auto;
-  padding: 20px 10px 30px 40px;
+  padding: 20px 20px 30px 40px;
+  -webkit-transition:  2s;
+  transition:  1s;
 }
 
 .msgbox{
-	width: 300px;
+	width: 350px;
 	height: 100px;
-	margin-top: 20px;
 }
 
 .box{
-	margin-top: 90px;
+	margin-top: 60px;
 }
 
-input { font-size: 38px; }
+input { font-size: 35px; text-align: center; }
