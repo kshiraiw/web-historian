@@ -2,6 +2,7 @@
 // that are waiting.
 var request = require('request');
 var archive = require('../helpers/archive-helpers');
+var crontab = require('crontab');
 
 exports.fetch = function() {
 	var array = [];

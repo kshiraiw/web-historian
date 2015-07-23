@@ -73,7 +73,11 @@ exports.downloadUrls = function(array){
 		var parsedPath = urlParser.parse(url);
 		// console.log("ParsedPath" + parsedPath);
 		console.log("http://"+url, exports.paths.archivedSites + "/" + url);
-		request("http://" + url).pipe(fs.createWriteStream(exports.paths.archivedSites + "/" + url));
+		request("http://" + url)
+			.on( 'error', function(err){
+				console.log(err)	
+			})
+			.pipe(fs.createWriteStream(exports.paths.archivedSites + "/" + url));
 
 		///
 

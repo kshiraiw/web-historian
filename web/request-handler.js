@@ -22,7 +22,9 @@ var handleGet = function(req, res) {
 	console.log(req.url)
 	if(req.url === "/"){
 	  	helper.serveAssets(res, archive.paths.siteAssets + "/index.html");
-	} else  {
+	} else if(req.url === "/styles.css") {
+		helper.serveAssets(res, archive.paths.siteAssets + "/styles.css");
+	}else{
 		console.log("This LINE!!"+archive.paths.archivedSites + req.url)
 		archive.isUrlArchived(archive.paths.archivedSites + req.url, function(exist) {
 			if (exist) {
@@ -37,6 +39,7 @@ var handleGet = function(req, res) {
 };
 
 var handlePost = function(req, res){
+	if(req.url !== "/"){return;}
 	console.log("INSIDE POST");
 	var body = "";
 	req.on("data", function(chunk){
@@ -47,8 +50,11 @@ var handlePost = function(req, res){
 			if(exist){
 				archive.isUrlArchived(archive.paths.archivedSites + '/' + body.substr(4), function(isPresent) {
 					if (isPresent) {
-						helper.serveAssets(res, archive.paths.archivedSites + "/"+ body.substr(4));	
+						// helper.serveAssets(res, archive.paths.archivedSites + "/"+ body.substr(4));	
+						
+						res.writeHead(302, {'Location':  "/" + body.substr(4)});
 						console.log('this page is present!!!')
+						res.end();
 					} else {
 						helper.serveAssets(res, archive.paths.siteAssets + "/loading.html", 404);
 					}
